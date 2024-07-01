@@ -44,32 +44,20 @@
 
 \begin{document}
 
-\imageframe{./lecture_includes/torino_ai}
+\imageframe{./lecture_includes/sgpe_2024}
 
 
 % ---- Content ----
 
 
-\section{Selecting Covariates Using Directed Acyclic Graphs}
-
-\begin{frame}{Graphs}
-
-\begin{itemize}
-
-\item Now we turn from potential outcomes modeling of causal effects to causal graphs
-\item My focus is very narrow -- I am using it mainly to help us carefully reason through design elements around matching and instrumental variables
-\item But it is a very important area and you tend to see it increasingly in advanced causal inference, machine learning
-
-\end{itemize}
-
-\end{frame}
+\section{Directed Acyclic Graphs}
 
 \begin{frame}{Adjusting for variables}
 
 \begin{itemize}
 \item One of the first things you learn in a methods course is multivariate regression ``controlling for $X$''
-\item What is this? Why do we do this?  What should $X$ be? What causal parameter does it help identify?
-\item Unconfoundedness, selection on observables, ignorable treatment assignment are different terms describing the same thing -- the RCT is still occurring, only within the dimensions of a conditioning set of confounders and covariates
+\item What is this? Why do we do this?  What should $X$ be? What causal parameter does it help identify? How do covariates and selection relate?
+\item We will use graphs to help us better understand the idea of unconfoundedness or selection observables
 \end{itemize}
 
 \end{frame}
@@ -77,7 +65,7 @@
 
 \subsection{Graph notation}
 
-\begin{frame}{Judea Pearl, 2011 Turing Award winner, drinking his first IPA}
+\begin{frame}{Judea Pearl, 2011 Turing Award winner}
 
   \begin{figure}
     \includegraphics[scale=0.05]{./lecture_includes/pearl_ipa.jpg}
@@ -97,34 +85,12 @@
 	\item \textbf{A}: Acyclic.  This means that the causal pathway only moves in one direction.  No loops or feedbacks. Limits its ability to represent many things in economics (e.g., reverse causality, simultaneous equations)
 	\item \textbf{G}: Graphs. And this is also a reference to graph theory.  These are represented with a system of nodes and arrows
 	\end{itemize}
-    \item They make causality concepts extremely clear, they provide a map to the estimation strategy, and maybe best of all, they communicate to others what must be true about the data generating process to recover the causal effect
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Design vs. Model}
-
-  \begin{itemize}
-    \item DAGs require prior theory of treatment assignment in the world, making it more structural than design oriented methods which exploit randomization or simple treatment assignment mechanisms 
-  	\item While DAGs are  compatible with design based approaches, they are less likely to follow the same estimation methodologies
-    \item DAGs are used in epidemiology a lot, and are also extremely common in industry and machine learning, including AI (e.g., causalens), 
-    \item My review of them will largely be used to service the design based approaches using covariate adjustment and instrumental variables
+    \item We'll use these to understand selection on observables ("unconfoundedness") and instrumental variables
   \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Further reading}
-
-  \begin{enumerate}
-
-    \item Pearl and MacKenzie (2018) \underline{The Book of Why: The} \underline{New Science of Cause and Effect}, Basic Books (\emph{wildly popular})
-    \item Pearl, Glymour and Jewell (2016) \underline{Causal Inference In Statistics: A Primer}, Wiley Books (\emph{accessible})
-    \item Pearl (2009) \underline{Causality: Models, Reasoning and Inference}, Cambridge, 2nd edition (\emph{advanced})
-    \item Morgan and Winship (2014) \underline{Counterfactuals and Causal Inference: Methods and Principles} \underline{for Social Research}, Cambridge University Press, 2nd edition (\emph{excellent})
-  \end{enumerate}
-
-\end{frame}
 
 
 
@@ -132,16 +98,8 @@
 \begin{frame}{Causal model}
 
   \begin{itemize}
-  \item DAGs are not design based -- they are model based
   \item DAGs use the prior information you have about the treatment assignment and the determinants of the outcome to model the various channels (both direct and through backdoors) that the treatment causes the outcome
 	\item If your knowledge of the DAG is correct, then identification of average treatment effects becomes straightforward -- but there are few ways to ``prove'' the DAG so their popularity among economists has been met with skepticism
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Causal model}
-
-  \begin{itemize}
 	\item But for the selection of covariates to be used in any method that controls for covariates, they are indispensable 
     \item Consider the following diagram representing the returns to education with simplified confounders
   \end{itemize}
@@ -184,25 +142,26 @@
 
 
 
-\begin{frame}{DAGs are harder than they seem}
-
-	\begin{itemize}
-	\item DAGs are meant to represent the truth about \emph{your data} -- what determines the treatment in \emph{your dataset} may be different from what determines in someone else's even if the topic is the same
-	\item But you also need to be able to justify the choices 
-	\item DAGs have a complicated connection to the design methodologies which typically focus on randomization, not prior knowledge about the system of equations, and yet many design methods do in fact require prior statements that likely can only be stated with some willingness to commit
-	\end{itemize}
-\end{frame}
-
 \begin{frame}{Creating your DAG}
 
 	\begin{itemize}
-	\item So, your goal is to, in good faith, create a DAG that is a reasonable and honest approximation of $D$ and $Y$ parents (confounders) as well as direct and indirect effects of $D$ on $Y$
-	\item Where there is uncertainty, you have to acknowledge that in the DAG, and where there are convictions, you acknowledge that too
-	\item We get ideas for DAGs from theory, models, observation, experience, prior studies, intuition, as well as conversations with domain experts, but keep in mind -- these are not natural experiments; they are not exploiting randomized treatment assignment.  
+	\item Create a DAG that is a reasonable and honest approximation of $D$ and $Y$ parents (confounders) as well as direct and indirect effects of $D$ on $Y$
+	\item Where there is uncertainty, you have to acknowledge that in the DAG, and where there are beliefs, you acknowledge that too
+	\item We get ideas for DAGs from theory, models, observation, experience, prior studies, intuition, as well as conversations with domain experts
 	\end{itemize}
 
 \end{frame}
 
+
+\begin{frame}{DAGs Pre-Analysis Stage}
+
+	\begin{itemize}
+	\item DAGs are meant to represent the truth about treatment assignment mechanisms and selection for the units in \emph{your data} 
+	\item But creating the DAGs after you collect the data may be cheating as you're able to draw the DAG based simply on what you have rather than what is true
+	\item What determines the treatment in \emph{your dataset} may be different from what determines in someone else's even if the topic is the same
+	\item You'll need to spend time before your projects understanding why units in your data enrolled in the treatment -- this isn't something you do after your get the data 
+	\end{itemize}
+\end{frame}
 
 
 
@@ -212,21 +171,12 @@
 
 \subsection{Backdoor criterion}
 
-\begin{frame}{DAGs and covariates}
-
-  \begin{itemize}
-	\item We will use the DAG to motivate the selection of covariates that are necessary and sufficient to identify causal effects under unconfoundedness, which we will discuss momentarily
-    \item The selection of covariates are those covariates that satisfy the \textbf{backdoor criterion}, which we will explain momentarily
-    \item  DAGs help you choose covariates where covariate are the source of selection bias
-  \end{itemize}
-
-\end{frame}
 
 \begin{frame}{Confounding}
 
   \begin{itemize}
   	\item The covariates you need to control for under unconfoundedness are called \textbf{confounders}, as confounders create backdoor paths from treatment to outcome
-          \item Confounders create differences in $D$ as well as differences in potential outcomes, and so therefore $X$ creates selection bias \\
+          \item Confounders create selection bias \\
 
           \begin{center}
             \begin{tikzpicture}
@@ -465,9 +415,9 @@
   \end{center}
 
   \begin{itemize}
-  \footnotesize
+  \tiny
     \item Conditioning on the common causes, $X_1$ and $X_2$, is sufficient but so is conditioning on $X_3$
-    \item See \texttt{confounder_multiple.do} for differences in variance
+    \item See \texttt{confounder_multiple.do} for differences in variance -- overcontrolling is more precise
   \end{itemize}
 \end{frame}
 
@@ -524,7 +474,7 @@ Imagine casting directors pick movie stars based on talent and beauty
     \end{tikzpicture}
   \end{center}
 
-Talent and beauty can become correlated even though they are independent
+Talent and beauty can become correlated even though they are independent; see \texttt{moviestar.do} or \texttt{moviestar.R}
 
 
 \end{frame}
@@ -851,31 +801,34 @@ Talent and beauty can become correlated even though they are independent
 
 \section{Unconfoundedness}
 
-\subsection{Aggregate target parameters}
 
-\begin{frame}{Shifting gears}
+
+
+\begin{frame}{Known and Observed Confounder}
+
+	\begin{itemize}
+	\item Backdoor criterion from DAGs means you know which covariates to control for, which ones to avoid, and which ones improve precision
+	\item Confounders select units into treatment and left uncontrolled create selection bias
+	\item When they are observed covariates, we can reduce the selection bias directly in different ways
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Known and Observed Confounders}
 
 \begin{itemize}
-\item Having reviewed the fundamentals of DAGs, we will now move into the practical realm
-\item You have a non-experimental study.  
-\item You have drawn your DAG or you have convinced yourself of your controls
-\item We now discuss parameters, assumptions and estimation
+\item We'll be considering four scenarios with different estimators under different assumptions:
+	\begin{enumerate}
+	\item Matching and weighting: Unconfoundedness and common support
+	\item Bias correction: Unconfoundedness, weak support
+	\item Standard regression specifications: Unconfoundedness, constant treatment effects and functional form restrictions
+	\item Regression adjustment: Unconfoundedness and functional form restrictions
+	\end{enumerate}
+\item Goal is to know which ones to use under which scenarios and their tradeoffs
 \end{itemize}
 
 \end{frame}
 
-
-
-\begin{frame}{Known and Quantified Confounder}
-
-	\begin{itemize}
-	\item Confounders may or may not be observed,
-	\item Confounders create backdoor paths between the treatment and the outcome
-	\item Closing all backdoor paths to satisfy the backdoor criterion means that all remaining variation in the treatment is random
-	\item One such set of design methods that utilize observed confounders to estimate causal effects are called ``unconfoundedness'' methods
-	\end{itemize}
-
-\end{frame}
 
 
 \subsection{Aggregate treatment effect parameters}
@@ -884,10 +837,13 @@ Talent and beauty can become correlated even though they are independent
 \begin{frame}{Defining the target parameter comes first}
 
 \begin{itemize}
-\item Unconfoundedness methods include regression, weights or matching and they can be used to estimate average treatment effects like ATE, ATT, ATU
-\item With constant treatment effects, they are the same ($ATE=ATT=ATU$) so methods that find one find all of them
-\item Heterogenous treatment effects implies these will be different parameters, and thus different methods are needed
-\item You must decide ahead of time which parameter you want to know in order to properly estimate it
+\item Framing your question as an average treatment effect and thinking of populations that will get the policy can help you choose and then estimate a parameter and interpret your results
+\item Between the ATT and the ATE, which parameter do you want to estimate?  
+	\begin{itemize}
+	\item Example: vaccines are meant to be used by everyone, so you want to know the ATE
+	\item Example: remedial summer school aimed at poor performing students are only meant to be taken by poor performing students, so you don't want the ATE (you want the ATT)
+	\end{itemize}
+\item Heterogeneous treatment effects mean results can differ by unit, and therefore average treatment effects may different for different groups 
 
 \end{itemize}
 
@@ -898,14 +854,14 @@ Talent and beauty can become correlated even though they are independent
 \subsection{Assumptions}
 
 
-\begin{frame}{Aggregate causal parameters have missing potential outcomes}
+\begin{frame}{Missing Counterfactuals}
 
 
 \begin{itemize}
-\item Every aggregate causal parameter is missing some potential outcome (e.g., ATT is missing $E[Y^0|D=1]$
+\item Every causal parameter is missing counterfactual potential outcomes (e.g., ATT is missing $E[Y^0|D=1]$)
 \item If we are going to estimate the ATT, then it must be we are estimating $E[Y^0|D=1]$ somehow, but how?
 \item If we are using observed confounders, then we are imputing the missing counterfactual using covariates in the comparison group
-\item ``At some level, all methods for causal inference can be viewed as imputation methods, although some more explicitly than others.'' -- Imbens and Rubin (2015)
+\item All of causal inference uses one group to impute the missing counterfactuals for another group -- but this is only valid for some groups under some assumptions
 
 \end{itemize}
 
@@ -920,55 +876,61 @@ Talent and beauty can become correlated even though they are independent
 \item When attempting to estimate aggregate causal parameters using covariate adjustment, we can do so with only two assumptions
 
 	\begin{enumerate}
-	\item \textbf{Unconfoundedness}:  fairly controversial to some because of what it implies about human behavior
-	\item \textbf{Common support}: since most people stop at assumption 1, there's much less attention to common support
+	\item \textbf{Unconfoundedness}:  Selection on observable covariates such that all remaining variation in the treatment is random
+	\item \textbf{Common support}: Technically requires exact matches
 	\end{enumerate}
-\item Today we will assume you satisfy unconfoundedness, and therefore our focus is on violations of assumption 2
-\item Assuming constant treatment effects is unnecessary
+\item Both assumptions are needed to estimate all causal parameters like the ATE, ATT and ATU and both assumptions are very strong
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}[plain]
-
-	\begin{block}{Identifying assumption I: Unconfoundedness}
-	$(Y^0$, $Y^1)$ $\independent{D} | X$. There exists a set $X$ of known and quantified confounders such that after adjusting for them, treatment assignment is \emph{independent of potential outcomes}.
-	\end{block}
-	
-	\begin{itemize}
-	\item Conditional on $X$, treatment assignment is randomly distributed (i.e., independent of both potential outcomes) -- strong assumption
-	\item For a large group of people within the same strata of $X$, this assumption states they choose treatments by flipping coins (not because they think the treatment helped them)
-	\item Eliminating all backdoor paths on a DAG through blocking satisfies unconfoundedness; also called ignorability
-	\end{itemize}
-\end{frame}
-
 
 \begin{frame}[plain]
 
-	\begin{block}{Identifying assumption I: Unconfoundedness}
+	\begin{block}{Assumption I: Unconfoundedness}
 	$(Y^0$, $Y^1)$ $\independent{D} | X$. There exists a set $X$ of known and quantified confounders such that after adjusting for them, treatment assignment is \emph{independent of potential outcomes}.
 	\end{block}
 	
 	\begin{eqnarray*}
-	\alert{E[Y^0 | D=1, X=x]} &=& E[Y^0 | D=0, X=x] \\
-	E[Y^1 | D=1, X=x] &=& \alert{E[Y^1 | D=0, X=x] }
+	\textcolor{red}{E[Y^0 | D=1, X=x]} &=& E[Y^0 | D=0, X=x] \\
+	E[Y^1 | D=1, X=x] &=& \textcolor{red}{E[Y^1 | D=0, X=x] }
 	\end{eqnarray*}
 	
-Unconfoundedness justifies substituting units in treatment for control based on $X=x$ -- but only if there are exact matches
+Unconfoundedness justifies substituting units in treatment for control based on $X=x$, but only for units with \emph{exactly} the same characteristics $X$; you'll need this for the ATE, ATT and the ATU
 	
 	
 \end{frame}
 
-\begin{frame}{Economic meaning of backdoor criterion}
+\begin{frame}{Selection on Observables and Random Choices}
 
 \begin{itemize}
-\item When people choose their own treatments, attempting to estimate aggregate causal parameters using covariates that conditional on those covariates, they are \emph{randomizing choices}
-\item If people are optimizing, though, then it's a strong statement to claim that for groups of units with identical confounder values, they were choosing treatments based on coin flips
+\item Ask yourself "Who chooses the treatment?  What do they know when they did it?  Why did they do it? What did they hope would happen?"
+\item If you are solving causal inference problems with covariates, you are saying this:
+	\begin{itemize}
+	\item Covariates chose the treatments for people
+	\item Exactly identical people were only flipping coins after that
+	\end{itemize}
+\item Selection on observables is a "strong assumption", so sometimes we weaken it both because it's more plausible, and because weaker assumptions may be all you need to get your target parameter
+
 \end{itemize}
 
 \end{frame}
 
+\begin{frame}[plain]
+
+	\begin{block}{Assumption: Weak Unconfoundedness}
+	$(Y^0$) $\independent{D} | X$. There exists a set $X$ of known and quantified confounders such that after adjusting for them, treatment assignment is \emph{independent} of $Y^0$
+	\end{block}
+	
+	\begin{eqnarray*}
+	\textcolor{red}{E[Y^0 | D=1, X=x]} &=& E[Y^0 | D=0, X=x] \\
+	\end{eqnarray*}
+	
+Weak unconfoundedness will mean we can replace missing $E[Y^0|D=1,X=x]$ with observed $E[Y^0|D=0, X=x]$ so long as you have exact matches.  Weak unconfoundedness matters for the ATT but "strong" unconfoundedness matters for ATE, ATT and the ATU
+	
+	
+\end{frame}
 
 
 
@@ -1010,34 +972,44 @@ The second term implies we have people in treatment and control for every strata
 
 
 	\begin{itemize}
-	\item Unconfoundedness lets you use $Y^0_j$ from control group as $i$'s $\alert{Y^0_i}$ and $Y^1_i$ from treatment group as $j$'s $\alert{Y^1_j}$ using $X$ as the matching guide
+	\item Unconfoundedness means you can replace the missing $\textcolor{red}{E[Y^0|D=1,X=x]}$ with the observed $E[Y^0|D=0, X=x]$ because they are in fact the same anyway
 		\begin{eqnarray*}
-		E[Y^1-Y^0|X] &=& E[Y^1 - Y^0 | X,D=1] \\
-		&=&E[Y|X,D=1] - E[Y|X,D=0]
+		E[Y^1-Y^0|X=x] &=& E[Y^1 - Y^0 | X=x] \\
+		&=& E[Y^1|X=x] - E[Y^0 | X=x] \\
+		&=& \underbrace{E[Y^1|D=1,X=x]}_{\mathclap{\text{$E[Y^1]$ same for both}}} - \underbrace{E[Y^0 | D=0,X=x]}_{\mathclap{\text{$E[Y^0]$ same for both}}} \\
+		&=&\underbrace{E[Y|D=1,X=x] - E[Y|D=0, X=x]}_{\mathclap{\text{Switching equation from potential outcomes to realized outcomes}}}
 		\end{eqnarray*}
-	\item Common support (the bridge metaphor) allows the match to take place as well as weight over the covariate distribution 
+	\item Not testable (requires DAG), but if true, those steps lead you to an estimator
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Estimating ATE with Assumptions}
+
+
+	\begin{itemize}
+	\item Common support acts as a bridge connecting two groups potential outcomes through common covariates which allows you to take weighted averages of differences in means
 		\begin{eqnarray*}
-		\delta_{ATE} &=&E[Y^1-Y^0] = E\bigg[ E[Y^1 - Y^0 \ \vert \ X] \bigg] \\
+		ATE &=&E[Y^1-Y^0] = E\bigg[ E[Y^1 - Y^0 \ \vert \ X] \bigg] \\
 		&=& \int E[Y^1 - Y^0 |X,D=1] dPr(X) \\
 		&=& \int \left(E[Y|X,D=1] - E[Y|X,D=0]\right)dPr(X)
 		\end{eqnarray*}
+	\item You're taking weighted averages of difference in means over the distribution of $X$
 	\end{itemize}
 
 \end{frame}
 
 
 
+
 \begin{frame}{Maybe You Want the ATT}
 
-ATE requires conditional independence with respect to both $Y^1$ and $Y^0$ which would mean complete irrationality 
-
-\bigskip
-
-If we want the ATT, we can go with strictly weaker assumptions -- weak unconfoundedness and weak overlap
-
-\bigskip
-
-One kind of selection: person  chooses the treatment based on what you gain, $Y^1$, but not what you lose, $Y^0$, and not net benefits, $\delta=Y^1-Y^0$
+\begin{itemize}
+\item In the social sciences, my opinion is it's rare you want the ATE, or if you did, you probably can't get it
+\item ATT parameters are all about the average effect of a program on the people in the program
+\item Many research questions are actually about the ATT not the ATE 
+\item Labor market discrimination studies are most likely ATT questions because you want to know the effect of discrimination on the minority group (i.e., the one discriminated against)
+\end{itemize}
 
 \end{frame}
 
@@ -1070,13 +1042,13 @@ Selection is weaker too, like I said -- they are not entirely irrational, but wh
 
 Weighted averages under both assumptions:
 		\begin{eqnarray*}
-		\delta_{ATT} &=& \int \left(E[Y|X,D=1] - E[Y|X,D=0]\right)dPr(X|D=1)
+		{ATT} &=& \int \left(E[Y|X,D=1] - E[Y|X,D=0]\right)dPr(X|D=1)
 		\end{eqnarray*}
 We match units in treatment and control because under weak unconfoundedness they're substitutable, and we use weak common support so that we can actually do it, then we take weighted averages over the differences.  
 
 \bigskip
 
-What assumptions and method would you use to estimate the ATU?
+Similar logic for the ATU, but oddly enough, I've never seen a study estimate the ATU even though presumably that would be useful
 		
 \end{frame}
 
@@ -1086,8 +1058,8 @@ What assumptions and method would you use to estimate the ATU?
 
 \begin{itemize}
 
-\item Now we will explore estimators that for lack of a better word ``use covariates'' to estimate aggregate causal parameters
-\item I will be bundling them around a few topics: exact matching, inexact matching, and regressions
+\item Now we will explore estimators that for lack of a better word ``use covariates'' to estimate average treatment effect parameters
+\item I will be discussing them around these topics: weighting and matching, matching biases (and corrections), regression
 \item Themes about heterogeneous treatment effects, common support and correct (and incorrect) regression specifications will be common
 
 \end{itemize}
@@ -1501,6 +1473,13 @@ If we can't find one, it means common support failed, the estimate would need to
 
 \end{frame}
 
+\begin{frame}{Simple example}
+
+Let's review together \texttt{nnmatch.do} to see how we do this using a program called \texttt{teffects nnmatch} in Stata. Focus only on the first ten lines and pay attention to who got matched to who.  Calculate the answers by hand. 
+
+
+\end{frame}
+
 
 \begin{frame}{Exact matching}
 
@@ -1508,6 +1487,7 @@ If we can't find one, it means common support failed, the estimate would need to
 \item Exact matching finds a person in the control group whose value of $X_j$ is \emph{exactly} equal to each person in the treatment group $i$
 \item Will not work if the conditioning set includes a continuous variable
 \item Will also not work if $K$ gets large (curse of dimensionality we discuss later)
+\item Numerically identical to subclassification
 \end{itemize}
 
 \end{frame}
@@ -1519,7 +1499,7 @@ If we can't find one, it means common support failed, the estimate would need to
 We will focus on the ATT for the rest of today and the equation is:
 
 \begin{equation}
-\widehat{\delta}_{ATT} = \dfrac{1}{N_T} \sum_{D_i=1}(Y_i - Y_{j(i)})
+\widehat{ATT} = \dfrac{1}{N_T} \sum_{D_i=1}(Y_i - Y_{j(i)})
 \label{eq:att_simplematch}
 \end{equation}
 
@@ -1532,7 +1512,7 @@ where $Y_{j(i)}$ is the $j$\textsuperscript{th} unit matched to the $i$\textsupe
 What if I find two or more $M$ units with the identical $X$ value? Then what?
 
 \begin{equation}
-\widehat{\delta}_{ATT} = \dfrac{1}{N_T} \sum_{D_i=1} \bigg ( Y_i - \bigg [\dfrac{1}{M} \sum_{m=1}^M Y_{j_m(1)} \bigg ] \bigg )
+\widehat{ATT} = \dfrac{1}{N_T} \sum_{D_i=1} \bigg ( Y_i - \bigg [\dfrac{1}{M} \sum_{m=1}^M Y_{j_m(1)} \bigg ] \bigg )
 \label{eq:att_match}
 \end{equation}
 
@@ -1565,17 +1545,16 @@ Notice that we are only dealing with $Y^0_i$ by matching; The $Y^1_i$ is fine as
 
 \end{frame}
 
-\begin{frame}{Estimated ATT using Exact Matching}
-
+\begin{frame}{Matched sample}
 
 \begin{itemize}
-\item Weak unconfoundedness of $Y^0$ with respect to age justifies substituting the comparison group for the missing treatment group $$\textcolor{red}{E[Y^0|D=1, X=x]} = E[Y^0|D=0, X=x]$$
-\item But unbiasedness requires exact matches -- unconfoundedness is necessary but not sufficient -- as we have to replace exactly on X
-\item Even weak support is rare due to the curse of dimensionality
+\item Notice how you don't use all the data with matching (only the yellow units)
+\item That's because not all of the data is relevant or helpful
+\item This is an important point -- not all of the data in causal inference has the variation you need for estimating causal effects
+\item You're imputing missing counterfactuals, not predicting outcomes -- it's a different task
 \end{itemize}
 
 \end{frame}
-
 
 
 
@@ -1592,9 +1571,9 @@ Notice that we are only dealing with $Y^0_i$ by matching; The $Y^1_i$ is fine as
 \begin{frame}{Curse of Dimensionality}
 	
 	\begin{itemize}
-	\item If no matches can be found, it means many cells may contain either only treatment units or only control units but not both, and that violates our common support assumption
-	\item We can always use ``finer'' classifications, but finer cells worsens the dimensional problem, so we don't gain  much from that.  ex: using $10$ variables and $5$ categories for each, we get $5^{10} = 9,765,625$.  
-	\item Matching methods really force us to see these curses; they're hidden with regressions because OLS imputes missing counterfactuals based off the linear functional form
+	\item If no matches can be found, it means many cells may contain either only treatment units or only control units but not both ("empty cells") which violates our common support assumption
+	\item Sometimes people want to "bin" or "coarsen" the covariates, and you can do that, but then it's no longer exact matching and any differences in potential outcomes across the units still create biases
+	\item So here we look at inexact matches and then we look at ways to reduce the matching biases when common support fails
 	\end{itemize}
 \end{frame}	
 
@@ -1602,23 +1581,13 @@ Notice that we are only dealing with $Y^0_i$ by matching; The $Y^1_i$ is fine as
 
 
 
-\begin{frame}{To Look Like Someone Else}
-
-\begin{itemize}
-\item When we can make synthetic xerox copies of ourselves, that's exact matching
-\item But what if we can only make similar copies of ourselves, like fraternal, but not identical, twins? That's nearest neighbor matching -- a form of ``inexact matching'', sort of like fraternal twins
-\item Introduces possible bias depending on heterogenous treatment effects, but the magnitude of the bias depends on the severity of the matching discrepancy
-\item We can improve on nearest neighbor matching using bias adjustment (Abadie and Imbens 2011) which uses an outcome regression to estimate the bias
-\end{itemize}
-
-\end{frame}
 
 \begin{frame}{Nearest Neighbor Matching}
 	
 	\begin{itemize}
-	\item Estimate $\widehat{\delta}_{ATT}$ by \emph{imputing} the missing potential outcome of each treatment unit $i$ using the observed outcome from that outcome's ``nearest'' neighbor $j$ in the control set using $X$ for the matching
+	\item Estimate $\widehat{ATT}$ by \emph{imputing} the missing potential outcome of each treatment unit $i$ using the observed outcome from that outcome's ``nearest'' neighbor $j$ in the control set using $X$ for the matching
 		\begin{eqnarray*}
-		\widehat{\delta}_{ATT} = \frac{1}{N_T}\sum_{D_i=1} (Y_i - Y_{j(i)})
+		\widehat{ATT} = \frac{1}{N_T}\sum_{D_i=1} (Y_i - Y_{j(i)})
 		\end{eqnarray*}where $Y_{j(i)}$ is the observed outcome of a control unit such that $X_{j(i)}$ is the \textbf{closest} value to $X_i$ among all of the control observations (eg match on $X$)
 	\end{itemize}
 \end{frame}
@@ -1628,7 +1597,7 @@ Notice that we are only dealing with $Y^0_i$ by matching; The $Y^1_i$ is fine as
 	\begin{itemize}
 	\item We could also use the average observed outcome over $M$ closest matches:
 		\begin{eqnarray*}
-		\widehat{\delta}_{ATT} = \frac{1}{N_T}\sum_{D_i=1}\left(Y_i-\left[\frac{1}{M}\sum_{m=1}^MY_{j_m(1)}\right]\right)
+		\widehat{ATT} = \frac{1}{N_T}\sum_{D_i=1}\left(Y_i-\left[\frac{1}{M}\sum_{m=1}^MY_{j_m(1)}\right]\right)
 		\end{eqnarray*}
 	\item Works well when we can find good matches for each treatment group unit, so $M$ is usually defined to be small (i.e., $M=1$ or $M=2$)
 	\end{itemize}
@@ -1657,7 +1626,7 @@ Notice that we are only dealing with $Y^0_i$ by matching; The $Y^1_i$ is fine as
 	
 	
 	\begin{flalign*}
-		    \only<1-2>{&\text{Question: What is }\widehat{\delta}_{ATT}=\frac{1}{N_T} \sum_{D_i=1} (Y_i - Y_{j(i)})\text{?}}& \\
+		    \only<1-2>{&\text{Question: What is }\widehat{ATT}=\frac{1}{N_T} \sum_{D_i=1} (Y_i - Y_{j(i)})\text{?}}& \\
 		    \only<2-2>{&\text{Match and plug in!}} \\
  	\end{flalign*}
 
@@ -1686,7 +1655,7 @@ Notice that we are only dealing with $Y^0_i$ by matching; The $Y^1_i$ is fine as
 	
 	\begin{flalign*}
 		&\text{Question: What is }\widehat{\delta_{ATT}}=\frac{1}{N_T} \sum_{D_i=1} (Y_i - Y_{j(i)})\text{?}& \\
-		&\widehat{\delta}_{ATT} = \frac{1}{3} \cdot (6-\textcolor{blue}{9}) + \frac{1}{3} \cdot (1-\textcolor{green}{0}) + \frac{1}{3} \cdot (0-\textcolor{blue}{9}) = -3.7
+		&\widehat{ATT} = \frac{1}{3} \cdot (6-\textcolor{blue}{9}) + \frac{1}{3} \cdot (1-\textcolor{green}{0}) + \frac{1}{3} \cdot (0-\textcolor{blue}{9}) = -3.7
 	\end{flalign*}
 
 \end{frame}
@@ -1735,6 +1704,15 @@ Let's do this together -- sometimes it helps to manually calculate this
 	
 \end{frame}
 
+\begin{frame}{Visualization of Optimal Match}
+
+\begin{figure}[!t]\centering
+\includegraphics[scale=0.35]{./lecture_includes/optimal_match}
+\end{figure}
+
+\end{frame}
+
+
 
 %\begin{frame}{Inexact matching: Random match 1}
 
@@ -1760,18 +1738,12 @@ Let's do this together -- sometimes it helps to manually calculate this
 \item We are minimizing Euclidean distance, and if that is not zero, then there is matching discreprancy
 \item And since it is a minimum, any other match will have more matching discreprancies
 \item \texttt{Matching} in R and \texttt{teffects} in Stata (not sure in python)
+\item Let's look at \texttt{nnmatch1.do} together and see how simple this is
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Visualization of Optimal Match}
-
-\begin{figure}[!t]\centering
-\includegraphics[scale=0.35]{./lecture_includes/optimal_matches}
-\end{figure}
-
-\end{frame}
 
 
  
@@ -1823,8 +1795,10 @@ Let's do this together -- sometimes it helps to manually calculate this
 		\begin{eqnarray*}
 		||X_i-X_j|| = \sqrt{ (X_i-X_j)'\widehat{\Sigma}_X^{-1}(X_i - X_j) }
 		\end{eqnarray*}
-	where $\widehat{\Sigma}_X$ is the sample variance-covariance matrix of $X$.
+	where $\widehat{\Sigma}_X$ is the sample variance-covariance matrix of $X$.  
 	\end{block}
+	
+	Let's review them using \texttt{nnmatch2.do}
 
 
 \end{frame}
@@ -1836,7 +1810,6 @@ Let's do this together -- sometimes it helps to manually calculate this
 \begin{itemize}
 \item The larger the dimensions of the conditioning set, the less likely common support holds, and you can't not do it because you need these covariate dimensions to satisfy weak unconfoundedness!
 \item This problem is caused by the finite dataset, and it introduces a particular type of selection bias
-\item Curses are only overcome with new spells  
 \item Abadie and Imbens (2011) derived a bias adjustment based on the unconfoundedness assumption and an outcome regression model
 \end{itemize}
 
@@ -1938,14 +1911,32 @@ The bias of the matching estimator is caused by large matching discrepancies $||
 
 \end{frame}
 
+\begin{frame}{Bias correction steps}
+
+\begin{figure}[!t]\centering
+\includegraphics[scale=0.35]{./lecture_includes/nnmatch_bc1}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Bias correction steps}
+
+\begin{figure}[!t]\centering
+\includegraphics[scale=0.35]{./lecture_includes/nnmatch_bc2}
+\end{figure}
+
+\end{frame}
+
 
 \begin{frame}{Steps}
 
 \begin{enumerate}
-\item[1.  ]Regress $Y$ on $X$ with OLS except only use the control sample:
+\item[1.  ]Regress $Y$ on $X$ with OLS except only use the \emph{matched} sample of control group units:
 \begin{equation}
 Y^0_j = \alpha + \beta X_j + \varepsilon_j \nonumber
-\end{equation}where $j$ are the units for which $D_j=0$.  
+\end{equation}where $j$ are the units for which $D_j=0$.  Examine the code for this in \texttt{nnmatch_bc1.do} and \texttt{nnmatch_bc2.do}.
 \end{enumerate}
 
 \end{frame}
@@ -1978,50 +1969,13 @@ Y^0_j = \alpha + \beta X_j + \varepsilon_j \nonumber
 \item[4. ] Estimate Abadie-Imbens robust standard error (Abadie and Imbens 2006; 2008; 2011)
 \end{enumerate}
 
-\end{frame}
-
-
-
-\begin{frame}[plain,shrink=0]
-	\begin{center}
-	\textbf{Bias adjustment in matched data}
-	\end{center}
-	
-	\begin{table}
-	\begin{tabular}{c|c|c|c|c}
-	\hline
-	\multicolumn{1}{c}{}&
-	\multicolumn{2}{c}{Potential Outcome}&
-	\multicolumn{1}{c}{}&
-	\multicolumn{1}{c}{}\\
-	\multicolumn{1}{c}{unit} &
-	\multicolumn{1}{c}{under Treatment}&
-	\multicolumn{1}{c}{under Control}&
-	\multicolumn{1}{c}{}&
-	\multicolumn{1}{c}{}\\
-	\hline
-	$i$ & $Y^1_i$ & $Y^0_i$ & $D_i$ & $X_i$ \\
-	\hline
-	1 & \textcolor{blue}{10} &  \textcolor{blue}{8} & 1 & \textcolor{blue}{3} \\
-	2 & 4 &  			 1 &				 1 & 1 \\
-	3 & \textcolor{green}{10} &   \textcolor{green}{9} & 1 & \textcolor{green}{10} \\
-	\hline
-	4 &  & \textcolor{blue}{8} & 0 & \textcolor{green}{4} \\
-	5 &  & 			 1 & 0 &  				0 \\
-	6 &  & \textcolor{green}{9} & 0 & \textcolor{green}{8} \\
-	\hline
-	\end{tabular}
-	\end{table}
-	
-	
-	\begin{flalign*}
-		\only<1-3>{&\widehat{\delta}_{ATT} = \frac{10-8}{3} + \frac{4-1}{3}  + \frac{10-9}{3}  = 2&} \\
-		\only<2-3>{&\text{For the bias correction, estimate }\widehat{\mu^0}(X) = \widehat{\beta_0} + \widehat{\beta_1}X = 2+X}\\
-		\only<3-3>{&\widehat{\delta}_{ATT} = \frac{ (10-8) - ( \widehat{\mu^0}(3) - \widehat{\mu^0}(4)) }{3}  + \frac{ (4-1)  -( \widehat{\mu^0}(1) - \widehat{\mu^0}(0)) }{3}  \\
-		&+ \frac{ (10-9)  - ( \widehat{\mu^0}(10) - \widehat{\mu^0}(8))}{3} = 1.33}
-	\end{flalign*}
+Let's review all of this \texttt{nnmatch_bc1.do} and \texttt{nnmatch_bc2.do}
 
 \end{frame}
+
+
+
+
 
 
 \begin{frame}{Matching bias: Implications for practice}
@@ -2033,6 +1987,32 @@ Y^0_j = \alpha + \beta X_j + \varepsilon_j \nonumber
 	\item Try to match covariates with a large effect on $\mu^0(\cdot)$ particularly well.
 	\end{enumerate}
 \end{frame}
+
+\begin{frame}{Bias Correction}
+
+\begin{itemize}
+
+\item Consider \texttt{matching_biasadj.do} that examines three models:
+	\begin{enumerate}
+	\item Underfit model with and without bias correction
+	\item Correctly specified model with and without bias correction
+	\item Overfit model with and without bias correction
+	\end{enumerate}
+\item Overfit model included cubic even though correct model was quadratic
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Simulation}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth, height=0.65\textheight]{./lecture_includes/att_estimates_comparison.png}
+    \label{fig:nnmatch_estimates1}
+\end{figure}
+
+\end{frame}
+
 
 \begin{frame}{Large sample distribution for matching estimators}
 	
@@ -2135,7 +2115,7 @@ Let's now review the syntax in Stata.  It's called \texttt{matching.do} and is i
   
 \end{frame}
 
-\begin{frame}{Summarizing both with propensity score histogram}
+\begin{frame}{What if we could combine them}
 
   \begin{figure}
     \includegraphics[scale=0.25]{./lecture_includes/pscore_histogram}
@@ -2165,7 +2145,20 @@ Let's now review the syntax in Stata.  It's called \texttt{matching.do} and is i
 \end{frame}
 
 
+\begin{frame}{Rubin 2008 checklist}
 
+\begin{enumerate}
+\item Conceptualize the hypothetical randomized experiment representing your project.
+\item Define and estimate the propensity score.
+\item Investigate balance.
+\item Identify decision-makers and assignment rules.
+\item Assess covariate quality and availability.
+\item Create balanced groups.
+\item Iterate and refine.
+\item Specify the analysis plan.
+\end{enumerate}
+
+\end{frame}
 
 \begin{frame}{Formal Definition}
 	

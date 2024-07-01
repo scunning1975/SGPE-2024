@@ -1,8 +1,9 @@
-\beamer@slide {fig:titanic}{61}
-\beamer@slide {tab:titanic-age}{63}
-\beamer@slide {tab:titanic-counts}{64}
-\beamer@slide {tab:titanic-weights}{65}
-\beamer@slide {tab:titanic-counts2}{67}
-\beamer@slide {tab:titanic-weights2}{69}
-\beamer@slide {eq:att_simplematch}{80}
-\beamer@slide {eq:att_match}{81}
+\beamer@slide {fig:titanic}{57}
+\beamer@slide {tab:titanic-age}{59}
+\beamer@slide {tab:titanic-counts}{60}
+\beamer@slide {tab:titanic-weights}{61}
+\beamer@slide {tab:titanic-counts2}{63}
+\beamer@slide {tab:titanic-weights2}{65}
+\beamer@slide {eq:att_simplematch}{77}
+\beamer@slide {eq:att_match}{78}
+\beamer@slide {fig:nnmatch_estimates1}{120}
