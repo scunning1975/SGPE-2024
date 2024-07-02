@@ -33,7 +33,7 @@ set obs 10000
   sum x3
   replace x3 = x3-`r(mean)'
   
-* Treatment probability increases with age and decrease with gpa
+* Treatment probability increases with x3
   gen prob = 0.5 + 0.25 * (x3 > 0)
   gen treat = runiform() < prob
 

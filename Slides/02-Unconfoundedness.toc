@@ -10,5 +10,5 @@
 \beamer@subsectionintoc {3}{1}{Subclassification}{52}{0}{3}
 \beamer@subsectionintoc {3}{2}{Exact and Inexact Matching}{69}{0}{3}
 \beamer@subsectionintoc {3}{3}{Propensity scores}{124}{0}{3}
-\beamer@subsectionintoc {3}{4}{Regressions}{206}{0}{3}
-\beamer@sectionintoc {4}{Concluding remarks}{299}{0}{4}
+\beamer@subsectionintoc {3}{4}{Regressions}{215}{0}{3}
+\beamer@sectionintoc {4}{Concluding remarks}{308}{0}{4}

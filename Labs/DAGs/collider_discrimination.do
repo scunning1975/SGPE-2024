@@ -13,7 +13,7 @@ generate ability = rnormal() // random draw from the standard normal and not dif
 generate discrimination = female 
 
 * Data generating processes. We are not committing to the "females have different preferences" argument.
-generate occupation = (1) + (0.2)*ability + (0)*female + (-2)*discrimination + rnormal() // iid
+generate occupation = (1) + 2.6*ability + (0)*female + (-2)*discrimination + rnormal() // iid
 generate wage 		= (1) + (-1)*discrimination + (1)*occupation + 2.6*ability + rnormal() // iid
 
 * Regressions

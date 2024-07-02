@@ -2057,102 +2057,69 @@ Let's now review the syntax in Stata.  It's called \texttt{matching.do} and is i
 
 \subsection{Propensity scores}
 
-
-\begin{frame}{Curse of dimensionality, bias and heterogeneous treatment effects}
-	
-	\begin{itemize}
-	\item Recall the problem of many covariates for exact matching -- the curse of dimensionality makes matching on $K$ covariates implausible as the dimensions grow exponentially with $K$ 
-	\item This is problem because recall there are two assumptions needed to match
-		\begin{enumerate}
-		\item Unconfoundedness: this gives you the right to match
-		\item Common support: this gives you the ability to match
-		\end{enumerate}
-	\item Without both, then depending on the amount of hetergeneity in the treatment effects, matching will be biased
+\begin{frame}{Importance of Design in Causal Inference}
+  \begin{itemize}
+    \item Emphasis on activities before seeing outcome data.
+    	\begin{itemize}
+	\item Before we dive into more technical material, we should pause and discuss the importance of design
+	\item Rubin (2008) emphasizes the importance of focusing on these pre-analysis activities because they set the foundation for any causal inferences we might make. 
+	\item By planning and structuring our study carefully, we avoid biases and errors that could compromise our results.
+	\item Just like you wouldn't rush and haphazardly run a complex randomized experiment, you cannot with observational studies either
 	\end{itemize}
-
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Propensity score as dimension reduction}
-	
-	\begin{itemize}
-
-	\item Rubin (1977) and Rosenbaum and Rubin (1983) developed the propensity score method
-	\item They show that if treatment is independent of potential outcomes conditional on $K$ covariates, then it will be independent of potential outcomes conditional on propensity score 
-	\item Main value of the propensity score is dimension reduction  to reduce $K$ covariates into a single scalar without loss of information
-	\item Variety of ways to incorporate the propensity score -- stratification, weighting and matching
+\begin{frame}{Importance of Design in Causal Inference}
+  \begin{itemize}
+    \item Technical prowess vs. practical wisdom.
+    	\begin{itemize}
+	\item Rubin argues that practical wisdom in study design is just as crucial, if not more so, than technical prowess in analysis. 
+	\item Practical wisdom involves understanding the real-world context, anticipating potential issues, and making informed decisions about the study design.
 	\end{itemize}
-	
+  \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Investigating overlap}
 
-\begin{itemize}
 
-\item Once you obtain the propensity score, you can use it for estimation, but you can also use it for evaluating covariate balance
-\item It's an easy way to do it with histograms, and since the propensity score theorem holds for the dimensions of $X$, there's no loss of generality in investigating overlap that way versus one by one 
-\item Remember: you need common support, not on $X$ individual covariates alone, but within the $K$ dimensions, so investigating with the propensity score is easier to do
 
+\begin{frame}{Importance of Design in Causal Inference}
+  \begin{itemize}
+
+    \item Design Before Analysis:  
+    	\begin{itemize}
+	\item The idea here is that before we dive into any data analysis, we need to have a robust design in place. 
+	\item This encompasses all activities that occur before we even look at the outcome data. 
+	\item The design phase includes conceptualizing the study, identifying relevant covariates, and establishing the assignment mechanism.
+	\end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Importance of Design in Causal Inference}
+  \begin{itemize}
+    \item Misplaced focus on analysis over design in practice.
+    	\begin{itemize}
+	\item In practice, there is often an overemphasis on the analysis phase, where technical skills and complex statistical methods are valued more than the foundational design. 
+	\item However, without a sound design, even the most sophisticated analysis can lead us astray.
+	\end{itemize}
 \end{itemize}
 
 \end{frame}
 
 
 
-\begin{frame}{Covariate 1  histograms}
-
-  \begin{figure}
-    \includegraphics[scale=0.25]{./lecture_includes/age_histogram}
-  \end{figure}
-  
-\end{frame}
-
-\begin{frame}{Covariate 2  histograms}
-
-  \begin{figure}
-    \includegraphics[scale=0.25]{./lecture_includes/gpa_histogram}
-  \end{figure}
-  
-\end{frame}
-
-\begin{frame}{What if we could combine them}
-
-  \begin{figure}
-    \includegraphics[scale=0.25]{./lecture_includes/pscore_histogram}
-  \end{figure}
-  
-\end{frame}
-
-
-
-
-
-
-
-\begin{frame}{Navigating the vastness of estimation}
-
-\begin{itemize}
-\item Estimators abound and can be a little bewildering so to summarize them:
-	\begin{enumerate}
-	\item Match units from one group to another using the propensity score (with various rules for finding how close to be)
-	\item Weighting by the inverse propensity score
-	\end{enumerate}
-\item Variety of techniques to derive standard errors from parametric methods to bootstrapping
-\item Can even introduce ``doubly robust'' methods to deal with matching bias like we did with nearest neighbor bias correction
-\item But all these estimators assume unconfoundedness, so really it's all about addressing the lack of overlap; that's the only bias that exists when you have unconfoundedness remember
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{Rubin 2008 checklist}
+\begin{frame}{Rubin 2008 checklist: Design before Analysis}
 
 \begin{enumerate}
 \item Conceptualize the hypothetical randomized experiment representing your project.
-\item Define and estimate the propensity score.
-\item Investigate balance.
 \item Identify decision-makers and assignment rules.
 \item Assess covariate quality and availability.
+\item Define and estimate the propensity score.
+\item Investigate balance.
 \item Create balanced groups.
 \item Iterate and refine.
 \item Specify the analysis plan.
@@ -2160,10 +2127,102 @@ Let's now review the syntax in Stata.  It's called \texttt{matching.do} and is i
 
 \end{frame}
 
+\begin{frame}{Step 1: Conceptualize the hypothetical experiment}
+
+\begin{itemize}
+
+\item Think of observational studies and RCTs on a continuum 
+	\begin{itemize}
+	\item A well design observational study can dominate a poorly designed randomized experiment
+	\end{itemize}
+\item First main components of the study are potential outcomes 
+	\begin{itemize}
+	\item Write down your core question using potential outcomes -- if you cannot, it's either not a causal study or you're not ready to proceed
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Conceptualizing the Hypothetical Randomized Experiment}
+  \begin{itemize}
+    \item Defining the Hypothetical Experiment:
+      \begin{itemize}
+        \item The first step in Rubin’s checklist is to conceptualize the hypothetical randomized experiment that your observational study aims to approximate.
+        \item This involves a clear and detailed definition of what the experiment would look like if it were possible to conduct it.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Conceptualizing the Hypothetical Randomized Experiment}
+  \begin{itemize}
+
+    \item Different hypothetical experiments for the same dataset (e.g., prenatal exposures).
+    	\begin{itemize}
+	\item A single dataset can be conceptualized in multiple ways, leading to different hypothetical experiments. 
+	\item For example, a dataset on prenatal exposures could be used to study the effects of hormone exposure, barbiturate exposure, or both. 
+	\item Each conceptualization leads to a different design and potentially different causal inferences. Let me explain
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Prenatal Exposure Example}
+
+\begin{itemize}
+
+\item Dataset with prenatal exposures (hormone levels and barbiturate usage) can be conceptualized in different hypothetical experiments:
+	\begin{itemize}
+	\item \textbf{Hormone Exposure Experiment}: Randomly assign pregnant women to different hormone levels to study effects on outcomes (e.g., child development).
+	\item \textbf{Barbiturate Exposure Experiment}: Randomly assign pregnant women to different barbiturate levels to study effects on outcomes.
+	\item \textbf{Factorial Experiment}: Randomly assign combinations of hormone and barbiturate levels to study individual and combined effects.
+	\end{itemize}
+\item Each conceptualization frames the study as a randomized experiment, shaping the design and selection mechanisms.
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Step 2: Importance of Reconstructing the Assignment Mechanism}
+  \begin{itemize}
+    \item Understand how units would be assigned in a randomized experiment.
+    \item Mimic this process in your observational study.
+    \item Identify who chose the treatment, what they knew, why they did it, and what influenced treatment assignment.
+    \item If you cannot articulate this, it may not be time to do the analysis.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Step 3: Assess covariate quality and availability}
+  \begin{itemize}
+
+    \item Specifying treatment conditions and outcome variables.
+    	\begin{itemize}
+	\item It is essential to be explicit about the treatment conditions and outcome variables. 
+	\item What exactly are the treatments or interventions being compared? 
+	\item What outcomes are we measuring? 
+	\item Clear definitions help in designing a study that closely approximates the randomized experiment.
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
 \begin{frame}{Formal Definition}
 	
 	\begin{block}{Definition of Propensity score}
-	A propensity score is a number bounded between 0 and 1 measuring the probability of treatment assignment conditional on a vector of confounding variables: $p(X)=Pr(D=1 | X)$
+	A propensity score is a person (or "unit") specific probability bounded between 0 and 1 measuring the probability of treatment assignment given a collection of variables: $p(X)=Pr(D=1 | X)$
 	\end{block}
 	
 
@@ -2247,6 +2306,75 @@ Let's now review the syntax in Stata.  It's called \texttt{matching.do} and is i
 
 \end{frame}
 
+
+\begin{frame}{Propensity score as dimension reduction}
+	
+	\begin{itemize}
+
+	\item Rubin (1977) and Rosenbaum and Rubin (1983) developed the propensity score method
+	\item They show that if treatment is independent of potential outcomes conditional on $K$ covariates, then it will be independent of potential outcomes conditional on propensity score 
+	\item Main value of the propensity score is dimension reduction  to reduce $K$ covariates into a single scalar without loss of information
+	\item Variety of ways to incorporate the propensity score -- stratification, weighting and matching
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{Investigating overlap}
+
+\begin{itemize}
+
+\item Once you obtain the propensity score, you can use it for estimation, but you can also use it for evaluating covariate balance
+\item It's an easy way to do it with histograms, and since the propensity score theorem holds for the dimensions of $X$, there's no loss of generality in investigating overlap that way versus one by one 
+\item Remember: you need common support, not on $X$ individual covariates alone, but within the $K$ dimensions, so investigating with the propensity score is easier to do
+
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Covariate 1  histograms}
+
+  \begin{figure}
+    \includegraphics[scale=0.25]{./lecture_includes/age_histogram}
+  \end{figure}
+  
+\end{frame}
+
+\begin{frame}{Covariate 2  histograms}
+
+  \begin{figure}
+    \includegraphics[scale=0.25]{./lecture_includes/gpa_histogram}
+  \end{figure}
+  
+\end{frame}
+
+\begin{frame}{Propensity scores}
+
+  \begin{figure}
+    \includegraphics[scale=0.25]{./lecture_includes/pscore_histogram}
+  \end{figure}
+  
+\end{frame}
+
+
+
+
+\begin{frame}{Navigating the vastness of estimation}
+
+\begin{itemize}
+\item Estimators abound and can be a little bewildering so to summarize them:
+	\begin{enumerate}
+	\item Match units from one group to another using the propensity score (with various rules for finding how close to be)
+	\item Weighting by the inverse propensity score
+	\end{enumerate}
+\item Variety of techniques to derive standard errors from parametric methods to bootstrapping
+\item Can even introduce ``doubly robust'' methods to deal with matching bias like we did with nearest neighbor bias correction
+\item But all these estimators assume unconfoundedness, so really it's all about addressing the lack of overlap; that's the only bias that exists when you have unconfoundedness remember
+\end{itemize}
+
+\end{frame}
 
 
 
