@@ -72,5 +72,7 @@ use https://github.com/scunning1975/mixtape/raw/master/card.dta, clear
 #delimit cr
 	cap n estimates clear
 	
+* Then run iv.tex	
+	
 	
 	
