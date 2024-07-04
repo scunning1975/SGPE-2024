@@ -1,0 +1,14 @@
+\beamer@sectionintoc {1}{Instrumental variables}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Background}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Intuition}{3}{0}{1}
+\beamer@sectionintoc {2}{Estimators}{23}{0}{2}
+\beamer@subsectionintoc {2}{1}{Two Step}{24}{0}{2}
+\beamer@subsectionintoc {2}{2}{Weak instruments}{43}{0}{2}
+\beamer@subsectionintoc {2}{3}{Local average treatment effects}{72}{0}{2}
+\beamer@sectionintoc {3}{Application}{95}{0}{3}
+\beamer@subsectionintoc {3}{1}{Data visualization and necessary evidence}{96}{0}{3}
+\beamer@subsectionintoc {3}{2}{Leniency design}{103}{0}{3}
+\beamer@subsectionintoc {3}{3}{Marginal Treatment Effects}{149}{0}{3}
+\beamer@subsectionintoc {3}{4}{Covariates}{168}{0}{3}
+\beamer@subsectionintoc {3}{5}{Price elasticity of demand}{176}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{193}{0}{4}
