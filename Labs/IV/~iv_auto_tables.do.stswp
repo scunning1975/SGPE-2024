@@ -1,7 +1,7 @@
 clear
 capture log close
 
-
+* ssc install estout
 
 * This file will estimate the returns to college education using the "college in the county" instrumental variable
 * which instruments for college attendance with whether there is a 2 or 4 year college near the respondent of the NLS. 
@@ -29,7 +29,7 @@ use https://github.com/scunning1975/mixtape/raw/master/card.dta, clear
 				cap n local xlist: colnames e(b)
 				cap n local ivs: list ivs & xlist
 				cap n test `ivs'
-				* Store the first stage F statistic
+				* NOt the correct F statistic; you need to use the Olea and Pfleuger F statistic, but I don't ahve that in the code this second.
 				cap n local F_iv=r(F)
 				cap n local specname=`specname'+1
 

@@ -74,6 +74,7 @@ weakivtest
 
 twostepweakiv 2sls lwage (educ=nearc4) age black, robust
 
+  twostepweakiv 2sls q (p = Stormy ) i.Mon i.Tue i.Wed i.Thu, robust
 
 
 

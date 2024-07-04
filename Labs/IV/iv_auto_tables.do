@@ -29,7 +29,7 @@ use https://github.com/scunning1975/mixtape/raw/master/card.dta, clear
 				cap n local xlist: colnames e(b)
 				cap n local ivs: list ivs & xlist
 				cap n test `ivs'
-				* Store the first stage F statistic
+				* Not the correct F statistic; you need to use the Olea and Pfleuger F statistic, but I don't have that in the code this second.
 				cap n local F_iv=r(F)
 				cap n local specname=`specname'+1
 
