@@ -1,7 +1,7 @@
 clear
 capture log close
 
-* ssc install estout
+
 
 * This file will estimate the returns to college education using the "college in the county" instrumental variable
 * which instruments for college attendance with whether there is a 2 or 4 year college near the respondent of the NLS. 
