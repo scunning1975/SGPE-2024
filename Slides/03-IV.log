@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.14)  4 JUL 2024 08:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.14)  4 JUL 2024 08:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2508,21 +2508,18 @@ Package pdftex.def Info: ./lecture_includes/he_7.png  used on input line 2570.
 \openout8 = `03-IV.snm'.
 
 
-[195] (./03-IV.aux)
+(./03-IV.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: Temporary extra page added at the end. Rerun to get it removed.
 
 Package rerunfilecheck Info: File `03-IV.out' has not changed.
 (rerunfilecheck)             Checksum: 0999536068A28EA5DE3B2B4719AD8AFB;2032.
  ) 
 Here is how much of TeX's memory you used:
- 48915 strings out of 476025
- 1126954 string characters out of 5790017
+ 48913 strings out of 476025
+ 1126936 string characters out of 5790017
  1863388 words of memory out of 5000000
- 67832 multiletter control sequences out of 15000+600000
+ 67830 multiletter control sequences out of 15000+600000
  553156 words of font info for 165 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,11n,122p,1002b,851s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2543,10 +2540,10 @@ local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/lo
 cal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
 l/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local
 /texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 03-IV.pdf (195 pages, 17625586 bytes).
+Output written on 03-IV.pdf (194 pages, 17624722 bytes).
 PDF statistics:
- 1722 PDF objects out of 1728 (max. 8388607)
- 1369 compressed objects within 14 object streams
+ 1719 PDF objects out of 1728 (max. 8388607)
+ 1367 compressed objects within 14 object streams
  409 named destinations out of 1000 (max. 500000)
  43860 words of extra memory for PDF output out of 51595 (max. 10000000)
 
